@@ -2,11 +2,9 @@
 Justin Jemison
 DATE 29 Sep 2024
 
-Sytle page for the SJ Farm house website. It will house the main styles for the index and about page.
-most HTML files will reference this CSS file for styling. 
-*/
-
-/*
+Sytle page for the SJ Farm house website. It will house the main styles for all pages in the website.
+most HTML files will reference this CSS file for styling then reference their individual CSS for page specific content. THis style sheet asl has the 
+google font that I will be using ".grown0-batang-regular and bold which are selected via the class in the HTML files. 
   Color pallet #D2E0FB, FEF9D9, DEE5D4, 8EACCD
 */
 body {
@@ -40,93 +38,8 @@ nav {
 nav>a {
   place-content: center;
   padding: 5px;
-
 }
 
-main {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr .5fr 1fr;
-  
-}
-
-main>h1 {
-  font-size: 4rem;
-  grid-column: 1 / span 2;
-  text-align: center;
-}
-
-main>img{
-  border-radius: 10%;
-  grid-column: 3 /auto; 
-}
-
-.quote {
-  font-size: 2rem;
-  grid-column: span 5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-main>section {
-  grid-row: 3;
-  grid-column: span 4;
-  display: flex;
-  justify-content: space-evenly;
-}
-
-article>img {
-  width: 200px;
-  border-radius: 50%;
-}
-
-article>p{
-  text-align: center;
-}
-
-@media screen and (max-width:880px) {
-  main {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows:repeat(9 1fr);
-    place-items: center;
-  }
- 
-  main>img{
-    grid-row: 1;
-    margin-left: 15px;
-  }
-  
-  main>h1 {
-    grid-row:2;
-    grid-column:span 5;
-    text-align: center;
-  }
-  .quote {
-    font-size: 2rem;
-    grid-column: span 5;
-    grid-row: 3;
-  }
-  
-  main>section {
-    grid-row:4 / 9;
-    display: grid;
-  }
- 
-  article>img {
-    width: 175px;
-    border-radius: 50%;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  article>p{
-    text-align: center;
-  }
-
-}
 
 
 
