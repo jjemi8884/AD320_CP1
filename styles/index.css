@@ -45,7 +45,7 @@ screen sizes, the color number I am using thought out the website are Color pall
     border-radius: 50%;
   }
   
-  article>p{
+  article>p , footer{
     text-align: center;
   }
 
