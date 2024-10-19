@@ -9,7 +9,7 @@ screen sizes, the color number I am using thought out the website are Color pall
   main {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr .5fr 1fr;
+    grid-template-rows: 1fr .5fr 1fr 1fr;
     
   }
   
@@ -63,6 +63,20 @@ screen sizes, the color number I am using thought out the website are Color pall
 
   #trade{
     font-size: xx-small;
+  }
+
+  #pageScroll{
+    grid-row: 4;
+    grid-column: 1 span 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #imgScroll {
+    width: 400px;
+    border-radius: 5px;
+    box-shadow: 1rem;
   }
   
   @media screen and (max-width:880px) {
