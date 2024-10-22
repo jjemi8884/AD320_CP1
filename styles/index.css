@@ -9,7 +9,8 @@ screen sizes, the color number I am using thought out the website are Color pall
   main {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr .5fr 1fr 1fr;
+    grid-template-rows: 1fr .5fr 1fr 1fr .3fr;
+    align-items: center;
     
   }
   
@@ -78,6 +79,14 @@ screen sizes, the color number I am using thought out the website are Color pall
     border-radius: 5px;
     box-shadow: 1rem;
   }
+
+  #btnScroll {
+    grid-row: 5;
+    grid-column: 1/4;
+    place-self: center;
+    width: 5rem
+  }
+
   
   @media screen and (max-width:880px) {
     main {
