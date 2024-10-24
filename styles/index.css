@@ -9,7 +9,7 @@ screen sizes, the color number I am using thought out the website are Color pall
   main {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr .5fr 1fr 1fr .3fr;
+    grid-template-rows: .5fr .25fr .5fr 1fr .3fr;
     align-items: center;
     
   }
@@ -27,7 +27,7 @@ screen sizes, the color number I am using thought out the website are Color pall
   }
   
   .quote {
-    font-size: 4rem;
+    font-size: 2rem;
     grid-column: span 5;
     display: flex;
     justify-content: center;
@@ -39,6 +39,7 @@ screen sizes, the color number I am using thought out the website are Color pall
     grid-column: span 4;
     display: flex;
     justify-content: space-evenly;
+    font-family: cursive;
   }
   
   article>img {
@@ -72,10 +73,11 @@ screen sizes, the color number I am using thought out the website are Color pall
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: cursive;
   }
 
   #imgScroll {
-    width: 400px;
+    width: 800px;
     border-radius: 5px;
     box-shadow: 1rem;
   }
@@ -84,7 +86,7 @@ screen sizes, the color number I am using thought out the website are Color pall
     grid-row: 5;
     grid-column: 1/4;
     place-self: center;
-    width: 5rem
+    width: 10rem;
   }
 
   
@@ -92,7 +94,7 @@ screen sizes, the color number I am using thought out the website are Color pall
     main {
       display: grid;
       grid-template-columns: 1fr;
-      grid-template-rows:repeat(9 1fr);
+      grid-template-rows:repeat(11 1fr);
       place-items: center;
     }
    
@@ -128,13 +130,32 @@ screen sizes, the color number I am using thought out the website are Color pall
     article>p{
       text-align: center;
     }
+    #pageScroll{
+      grid-row: 10;
+      grid-column: 1 span 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #imgScroll {
+      width: 400px;
+      border-radius: 5px;
+      box-shadow: 1rem;
+    }
+  
+    #btnScroll {
+      grid-row: 11;
+      grid-column: 1/4;
+      place-self: center;
+      width: 5rem
+    }
 
     footer {
         display: flex;
         flex-direction: column-reverse;
-        align-items: center;
-        grid-template-columns: 1ft;
         grid-template-rows: repeat(5 1fr);
+        margin-top: 20px;
     }
  
   }
