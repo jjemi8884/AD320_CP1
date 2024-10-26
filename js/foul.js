@@ -75,4 +75,12 @@ function duckMood(temp, rain, wind){
 
     }
 }
+
+//the button
+const bzip = document.getElementById("btnZip");
+const zipInput = document.getElementById("zipcode");
+
+zipInput.addEventListener("input", (e) => {
+    
+})
   

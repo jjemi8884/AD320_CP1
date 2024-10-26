@@ -44,6 +44,18 @@ nav>a {
   display: none;
 }
 
+input:invalid{
+  background-color: blanchedalmond;
+  border-radius: 5px;
+  border-color: red;
+  border-width: 2px;
+}
+
+input:valid {
+  background-color: gainsboro;
+  border-width: 0px;
+}
+
 
 
 
