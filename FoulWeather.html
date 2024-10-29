@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Duck Weather</title>
     <link rel="stylesheet" href="styles/styles.css" />
-    
-   
-    
-
+    <link rel="stylesheet" href="styles/foulWeather.css" />
   </head>
+  
   <body>
     <nav>
       <a href="index.html">Home</a>
@@ -18,20 +16,39 @@
       <a href="login.html">login</a>
       <a href="FoulWeather.html">Foul Weather</a>
     </nav>
-    <h1>Is it a good duck weather day Hit the button to find out:</h1>
-   
-    <button id="btnWeather">Get Duck Weather</button>
-       <!-- place to find if the weather will be go for a duck or not -->
-        
-    <div id="weatherDiv"></div>
 
-    <section id= "zipSection" class="hidden"> 
-      <p class=>How about see what the duck weather is in your location</p>
-      <label>Zipcode</label>
-      <input type="number" id="zipcode" name="zipcode" maxlength= 5 minlength=5 pattern="(\d+{5}?)" required>
-      <button id="btnZip">Go!</button>
-      <div id = "zipWeather"></div>
-    </section>
-    <script src="js/foul.js" ></script>
+
+
+      <h1>Want to know what a duck thinks about the current weather?</h1>
+      <article>
+      
+        <button id="btnWeather">Get Duck Weather at SJFarms</button>
+          <!-- place to find if the weather will be go for a duck or not -->
+      </article>
+      
+      
+      <form id= "zipSection" onsubmit="return false"> 
+        <p class=>Get your duck weather by entering your 5 digit zip code below</p>
+        <!--input that will be hidden --> 
+        <input type="hidden" />
+        <label>Zipcode</label>
+        <input 
+        type="text" 
+        id="zipcode" 
+        name="zipcode" 
+        maxlength= 5 
+        minlength=5 
+        pattern="\d{5}?" 
+        required/>
+        <input type="button" id="btnZip" value="Submit" disabled/>
+        <div id = "zipDisplay"></div>
+      </form>
+      <section>
+        <div id="city"></div>
+        <div id="weatherData"></div>
+      </section>
+      <div id="weatherPic"></div>
+
+      <script src="js/foul.js" ></script>
   </body>
 </html>

@@ -52,7 +52,7 @@ input:invalid{
 }
 
 input:valid {
-  background-color: gainsboro;
+  background-color: rgb(177, 218, 177);
   border-width: 0px;
 }
 
