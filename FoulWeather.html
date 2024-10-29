@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles/foulWeather.css" />
   </head>
   
-  <body>
+  <body id="body">
     <nav>
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
@@ -19,16 +19,16 @@
 
 
 
-      <h1>Want to know what a duck thinks about the current weather?</h1>
-      <article>
+      <h1>Want to know what a ducks at SJ Farms think about the current weather?</h1>
+      <article id="art">
       
         <button id="btnWeather">Get Duck Weather at SJFarms</button>
           <!-- place to find if the weather will be go for a duck or not -->
       </article>
       
       
-      <form id= "zipSection" onsubmit="return false"> 
-        <p class=>Get your duck weather by entering your 5 digit zip code below</p>
+      <form id= "zipSection" onsubmit="return false" class="hidden"> 
+        <p class=>Now let's get the duck weather at your location by entering your 5 digit zip code below</p>
         <!--input that will be hidden --> 
         <input type="hidden" />
         <label>Zipcode</label>
@@ -50,5 +50,13 @@
       <div id="weatherPic"></div>
 
       <script src="js/foul.js" ></script>
+
+      <footer>
+        <p id="trade">&trade;SJFarms incorportated</p>
+        <UL>API used in this webpage:
+          <li><a href="https://www.weather.gov/documentation/services-web-api">NOAA</a> API, to get the current weather</li>
+          <li><a href="https://geocode.maps.co/"> Geocoding</a> API, to convert addresses to geographic coordinates</a></li>
+        </UL>
+      </footer>
   </body>
 </html>

@@ -1,14 +1,19 @@
 "use strict";
 
-//Duck weather
-const btnWeather = document.getElementById("btnWeather");
-const weatherData = document.getElementById("weatherData");
-const zipWeahter = document.getElementById("zipWeather");
-const zipCodeBx = document.getElementById("zipcode");
-const zipSec = document.getElementById("zipSection");
-const weatherPic = document.getElementById("weatherPic");
-const cityDisplay = document.getElementById("city");
 
+window.addEventListener("Load", init);
+
+funciton init(){
+
+    //Duck weather
+    const btnWeather = document.getElementById("btnWeather");
+    const weatherData = document.getElementById("weatherData");
+    const zipWeahter = document.getElementById("zipWeather");
+    const zipCodeBx = document.getElementById("zipcode");
+    const zipSec = document.getElementById("zipSection");
+    const weatherPic = document.getElementById("weatherPic");
+    const cityDisplay = document.getElementById("city");
+}
 
 btnWeather.addEventListener('click', getHomeWeather);
 //this is near the farm
@@ -34,7 +39,7 @@ function getWeatherURL(url){
         
         getLocalWeather(data.properties.forecast);
     })
-   
+    .catch(handleError);
 }
 
 function getLocalWeather(url){
@@ -49,6 +54,7 @@ function getLocalWeather(url){
             let forcast = data.properties.periods[0];
             updateFoulWeather(forcast);
         })
+    .catch(handleError);
 }
 
 
@@ -65,7 +71,12 @@ function updateFoulWeather(forcast){
     weatherPic.innerHTML=`
         <div>${duckMood(temp, rainPercent,wind)}</div>
     `;
+
     zipSec.classList.remove("hidden");
+    let bdy = document.getElementById("body");
+    let child = document.getElementById("art");
+    bdy.removeChild(child); //got it 
+    
 }
 
 function duckMood(temp, rain, wind){
@@ -84,7 +95,7 @@ function duckMood(temp, rain, wind){
                 `
     }else {
         return `<h2> This horrible duck weather, a good duck day and we are just waiting for it to be over!</h2>
-                <img src = "images/madDuck.png" width=500px alt="a image of a mad goose looking at the water" />
+                <img src = "images/madDuck.png" width=500px alt="a image of a mad goose looking at the water just pissed of at life right at the moment" />
                 <p>image source: https://live.staticflickr.com/4096/4936089974_6cdd131d91_b.jpg </p>
                 
                 `
@@ -114,7 +125,8 @@ zipButton.addEventListener("click", () => {
     fetch(url)
     .then((response) =>{
         if(!response.ok){
-            zipDisplay.innerHTML = `<p>Error loading, received a ${response.status} status<\p>`;
+            zipDisplay.innerHTML = `<p>Error loading, received a ${response.status} status.<\p>`;
+
             throw new Error(`HTTP error: ${response.status}`)
         }else{
             return response.json();
@@ -122,7 +134,8 @@ zipButton.addEventListener("click", () => {
     })
     .then((data) =>{
         if(data.length === 0){
-            zipDisplay.innerHTML = `<p>Error loading, Please check your zip code.<\p>`;
+            zipDisplay.innerHTML = `<h3>Error loading, Please check your zip code.<\h3>`;
+            weatherPic.innerHTML= `<img src = "images/_NIK0675.JPG" height=500px alt="a mad duck that is looking at you cause you enterd a invalid zip code."/>`;
         }else{
             let city = data[0].display_name.split(",");
             console.log(city[0]);
@@ -136,8 +149,23 @@ zipButton.addEventListener("click", () => {
             getWeatherURL(`https://api.weather.gov/points/${lat},${long}`)
         }
     })
+    .catch(handleError)
+    
 
 })
+
+
+function handleError(response){
+    zipDisplay.innerHTML = `<p>I am not sure what happened but I received a fatal error and it hurts us :( .<\p>`;
+    weatherPic.innerHTML = `<img
+    src="images/Screenshot 2024-10-08 153613.png"
+    alt="white duck wearing a hardhad"/>
+    <p> source: <a href="https://x.com/Dominic_Corr91/status/1782354014979428815">link</a> 2024-10-08
+      153028.png accessed on 10/8/2024, but you can not select the link cause your internet is GONE!</p>
+    `
+    console.log(response.status);
+}
+
 
 
 

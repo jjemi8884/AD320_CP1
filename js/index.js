@@ -1,5 +1,4 @@
-
-
+"use Strict"
 const imagesScroll =[
     
     "images/_NIK0252.JPG",

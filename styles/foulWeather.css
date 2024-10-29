@@ -1,6 +1,7 @@
 body{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: .5 1fr 1fr 1fr .5fr;
 }
 
 nav{
@@ -39,6 +40,13 @@ form{
     grid-row: 4;
 }
 
-#weatherPic {
-    
+footer {
+    grid-row:5;
+    grid-column: 1 / 4;
+    width: 100%;
+    justify-self: center; 
+    display: flex;
+    flex-direction: column-reverse;
+    grid-template-rows: repeat(5 1fr);
+    margin-top: 20px;
 }
