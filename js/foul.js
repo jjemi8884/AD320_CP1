@@ -20,11 +20,18 @@ const loadingDisplay = id("zipDisplay");
  */
 function init(){
     id("btnWeather").addEventListener('click', getHomeWeather);
-    document.querySelector("footer").addEventListener('mouseover', footerDis);   
+    footerDis();
+    chickenBomb();   
 }
 
+/**
+ * a funciton that will make the footer disapear, because why not!
+ */
 function footerDis(){
+    
+    setTimeout(() => {document.querySelector("footer").addEventListener('mouseover', () => {
     document.querySelector("footer").classList.add("hidden");
+    })}, 10000);
     
 }
 
@@ -203,6 +210,25 @@ function handleError(response){
         error.classList.remove("hidden");
     }
     console.log(response.status);
+}
+
+/**
+ * Here is your Async funcition I hope you enjoy
+ * I think I enjoyed it. But I now smile knowing what 
+ * fun you will have with this.
+ * 
+ * I have also added the footer dis funtion to the end to not start right away!
+ */
+async function chickenBomb(){
+    //start the timer
+    const chicken = id("chickenBombs");
+    setInterval(function () {
+        //show the chicken bomb
+        chicken.classList.remove("hidden");
+        setTimeout(function () {
+            chicken.classList.add("hidden")}, 2000);   
+    }, 10000)
+    
 }
 
 
