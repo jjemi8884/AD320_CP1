@@ -50,3 +50,20 @@ footer {
     grid-template-rows: repeat(5 1fr);
     margin-top: 20px;
 }
+
+.chickenFloater {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.chickenFloater > p {
+    width: 300px;
+    background-color: grey;
+    color: whitesmoke;
+    text-align: center;
+    border-radius: 6px;
+    z-index: 1;
+    
+}
+

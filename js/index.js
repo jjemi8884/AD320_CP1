@@ -1,3 +1,13 @@
+
+/*
+Jusitn Jemison
+Date 10/29/2024
+
+My index weather page javaScript. 
+This is jave script handles a button push to contol the slide show. 
+
+-->*/
+
 "use Strict"
 const imagesScroll =[
     
@@ -54,6 +64,9 @@ const scrollSection = document.getElementById("pageScroll")
 
 let showOn = false;
 
+/**
+ * the function that will start and stop the slide show. and control the pictures.
+ */
 function slideShow(){
     scrollIndex = (scrollIndex + 1) % imagesScroll.length;
     scrollImg.src = imagesScroll[scrollIndex];
@@ -64,6 +77,9 @@ function slideShow(){
 let btnScroll = document.getElementById("btnScroll");
 btnScroll.addEventListener('click', toggleImg);
 
+/**
+ * funciton that will toggle the scrolling of an image
+ */
 function toggleImg(){
     console.log('show stopped');
     if(showOn) {

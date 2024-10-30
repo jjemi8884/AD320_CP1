@@ -1,36 +1,52 @@
+/*
+Jusitn Jemison
+Date 10/29/2024
+
+My Foul weather page javaScript. 
+This is the webpage that will display the weather, how ducks like it. 
+It uses fetches
+-->*/
+
 "use strict";
 
+//mouse over footer to disappear.
 
-window.addEventListener("Load", init);
 
-funciton init(){
+window.addEventListener("load", init);
+const loadingDisplay = id("zipDisplay");
 
-    //Duck weather
-    const btnWeather = document.getElementById("btnWeather");
-    const weatherData = document.getElementById("weatherData");
-    const zipWeahter = document.getElementById("zipWeather");
-    const zipCodeBx = document.getElementById("zipcode");
-    const zipSec = document.getElementById("zipSection");
-    const weatherPic = document.getElementById("weatherPic");
-    const cityDisplay = document.getElementById("city");
+/**
+ * the function to initalize the button for weather, Should but used when loading software
+ */
+function init(){
+    id("btnWeather").addEventListener('click', getHomeWeather);
+    document.querySelector("footer").addEventListener('mouseover', footerDis);   
 }
 
-btnWeather.addEventListener('click', getHomeWeather);
+function footerDis(){
+    document.querySelector("footer").classList.add("hidden");
+    
+}
+
+//Duck weather
 //this is near the farm
 const homeUrl = "https://api.weather.gov/points/47.2355,-122.1292";
 
+/**
+ * Function for starting the process of getting the home weather at hardcoded location.
+ */
 function getHomeWeather(){
     getWeatherURL(homeUrl);
-    cityDisplay.innerHTML="Just south of Seattle the current weather is:";
+    id("city").classList.remove("hidden");
 }
-
 
 function getWeatherURL(url){
      
-    
+    loadingDisplay.classList.remove("hidden");
     fetch(url)
     .then((response) => {
         if (!response.ok){
+            handleError(response);
             throw new Error(`HTTP error: ${response.status}`);
         }
         return response.json();
@@ -42,10 +58,18 @@ function getWeatherURL(url){
     .catch(handleError);
 }
 
+
+/**
+ * Function used to get the forcast information from the NAOO website
+ * @param {URL for the location that is retrieved with the getWeatherURL} url 
+ */
 function getLocalWeather(url){
+    //console.log("getting local Weather report")
+
     fetch(url)
     .then((response) => {
         if(!response.ok){
+            handleError(response);
             throw new Error(`HTTP error: ${response.status}`);
         }
         return response.json();
@@ -54,123 +78,140 @@ function getLocalWeather(url){
             let forcast = data.properties.periods[0];
             updateFoulWeather(forcast);
         })
-    .catch(handleError);
+    //.catch(handleError); 
 }
 
-
-
+/**
+ * Function used to display the forcast information
+ * @param {Object that holds the forcast information} forcast 
+ */
 function updateFoulWeather(forcast){
     let temp = forcast.temperature;
     let rainPercent = forcast.probabilityOfPrecipitation.value;
     let wind = forcast.windSpeed;
-    weatherData.innerHTML = `
+    loadingDisplay.classList.add("hidden");
+    id("weatherData").innerHTML = `
         <p>Temp is ${temp}</p>
         <p>${rainPercent}% chance of rain</p>
         <p>wind is ${wind}
     `;
-    weatherPic.innerHTML=`
-        <div>${duckMood(temp, rainPercent,wind)}</div>
-    `;
-
-    zipSec.classList.remove("hidden");
-    let bdy = document.getElementById("body");
-    let child = document.getElementById("art");
-    bdy.removeChild(child); //got it 
+    resetPic();
+    duckMood(temp, rainPercent,wind);
+    id("zipSection").classList.remove("hidden");
     
+    if(document.contains(id("art"))){
+        id("body").removeChild(id("art"));
+        id("btnZip").addEventListener("click", zipWeather);
+        id("zipcode").addEventListener("input", inputValid)   
+    }
+};
+
+/**
+ * Function to reset the picture areas to allow room for the new picture.
+ */
+function resetPic(){
+    let par = id("weatherPic");
+    for (let child of par.children){
+        if(!child.classList.contains("hidden")){
+            child.classList.add("hidden");
+        }
+    }   
 }
 
+/**
+ * Function to get the duckie weather from the provided parameters.
+ * @param {Temp number} temp 
+ * @param {percentage of rain/snow expected} rain 
+ * @param {wind number} wind 
+ */
 function duckMood(temp, rain, wind){
     let re = new RegExp("\d")
     let intWind = re.exec(wind);
+    let weatherClass = "badWeather";
     if(temp > 32 && temp < 80 && rain > 50 && intWind < 10){
-       
-        return `<h2> This is a amazing duck weather, good chance of rain, not to hot and not freezing out!</h2>
-                <img src= "images/Happy Duck.png" width=500px alt="A happy mallard duck with its beak open"/>
-                <p>image source: https://img.fotocommunity.com/a-happy-duck-is-a-happy-duck-cc3352a8-32a5-4557-a9a2-3b18fa45271a.jpg?height=1080</p> 
-                `
+       weatherClass = "amazingWeather" ;              
     }else if (temp > 32 && temp < 80 && intWind < 10  ){
-        return `<h2> This is good duck weather, no rain, not to hot and no snow, a good lazy day</h2>
-                <img src= "images/meDuck.png" width=500px alt="A sleeping white puff duck"/>
-                <p>image source: Shot by me, that is the famous duck Puffy</p> 
-                `
-    }else {
-        return `<h2> This horrible duck weather, a good duck day and we are just waiting for it to be over!</h2>
-                <img src = "images/madDuck.png" width=500px alt="a image of a mad goose looking at the water just pissed of at life right at the moment" />
-                <p>image source: https://live.staticflickr.com/4096/4936089974_6cdd131d91_b.jpg </p>
-                
-                `
-
+        weatherClass = "goodWeather" ;          
+    }
+    let displayWeather = document.getElementsByClassName(weatherClass);
+    id("weatherPic").classList.remove("hidden");
+    for(let i = 0; i < displayWeather.length; i++){
+        
+        displayWeather[i].classList.remove("hidden");
     }
 }
 
-const zipButton = document.getElementById("btnZip");
-const zipcodeInput = document.getElementById("zipcode");
-const zipDisplay = document.getElementById("zipDisplay");
-
-
-//button will destiple when there is not a valid input
-zipcodeInput.addEventListener("input", () =>{
-    if(zipcodeInput.checkValidity()){
-        zipButton.disabled = false;
+/**
+ * Will see if a zipcode is valid or not
+ */
+function inputValid(){
+    if(id("zipcode").checkValidity()){
+        id("btnZip").disabled = false;
 
     }else{
-        zipButton.disabled = true;
+        id("btnZip").disabled = true;
     }
-})
+}
 
+/**
+ * the function that will get the zip code from the input, convert it to a 
+ * lat and long, and then call the NOAA website to display the weather.
+ */
 //get the right zip code
-zipButton.addEventListener("click", () => {
-    zipDisplay.innerHTML = `<p>Loading.....<\p>`;
-    let url = "https://geocode.maps.co/search?country=US&postalcode="+ zipcodeInput.value + "&api_key=6719c298a950c097595614cre30636a"
-    fetch(url)
-    .then((response) =>{
-        if(!response.ok){
-            zipDisplay.innerHTML = `<p>Error loading, received a ${response.status} status.<\p>`;
+function zipWeather(){
+        let url = "https://geocode.maps.co/search?country=US&postalcode="+ id("zipcode").value + "&api_key=6719c298a950c097595614cre30636a"
+        fetch(url)
+        .then((response) =>{
+            if(!response.ok){
+                id("zipDisplay").innerHTML = `<p>Error loading, received a ${response.status} status.<\p>`;
+                handleError(response);
+                throw new Error(`HTTP error: ${response.status}`)
+            }else{
+                return response.json();
+            }
+        })
+        .then((data) =>{
+            if(data.length === 0){
+                resetPic();
+                for(let error of document.getElementsByClassName("error")){
+                    error.classList.remove("hidden");
+                }
+            }else{
+                let city = data[0].display_name.split(",");
+                console.log(city[0]);
+                id("city").innerHTML=`<p>${city[0]} ${city[2]} current weather is:`;
+                id("zipDisplay").innerHTML = "";
+                const re = /(^(-\d{2,3}.\d{4}))|(^\d{2,3}.\d{4})/;
+                let latRaw = re.exec(data[0].lat);
+                let lat = latRaw[0];
+                let longRaw = re.exec(data[0].lon);
+                let long = longRaw[0];            
+                getWeatherURL(`https://api.weather.gov/points/${lat},${long}`)
+            }
+        })
+        .catch(handleError)
+}
 
-            throw new Error(`HTTP error: ${response.status}`)
-        }else{
-            return response.json();
-        }
-    })
-    .then((data) =>{
-        if(data.length === 0){
-            zipDisplay.innerHTML = `<h3>Error loading, Please check your zip code.<\h3>`;
-            weatherPic.innerHTML= `<img src = "images/_NIK0675.JPG" height=500px alt="a mad duck that is looking at you cause you enterd a invalid zip code."/>`;
-        }else{
-            let city = data[0].display_name.split(",");
-            console.log(city[0]);
-            cityDisplay.innerHTML=`<p>${city[0]} ${city[2]} current weather is:`;
-            zipDisplay.innerHTML = "";
-            const re = /(^(-\d{2,3}.\d{4}))|(^\d{2,3}.\d{4})/;
-            let latRaw = re.exec(data[0].lat);
-            let lat = latRaw[0];
-            let longRaw = re.exec(data[0].lon);
-            let long = longRaw[0];            
-            getWeatherURL(`https://api.weather.gov/points/${lat},${long}`)
-        }
-    })
-    .catch(handleError)
-    
-
-})
-
-
+/**
+ * The function to handle errors and display a funny message.
+ * @param {responce object received from the fetch commands} response 
+ */
 function handleError(response){
-    zipDisplay.innerHTML = `<p>I am not sure what happened but I received a fatal error and it hurts us :( .<\p>`;
-    weatherPic.innerHTML = `<img
-    src="images/Screenshot 2024-10-08 153613.png"
-    alt="white duck wearing a hardhad"/>
-    <p> source: <a href="https://x.com/Dominic_Corr91/status/1782354014979428815">link</a> 2024-10-08
-      153028.png accessed on 10/8/2024, but you can not select the link cause your internet is GONE!</p>
-    `
+    resetPic();
+    
+    for(let error of document.getElementsByClassName("htmlError")){
+        error.classList.remove("hidden");
+    }
     console.log(response.status);
 }
 
 
+//-----------------------helper functions-------------------------//
 
 
-
-
+function id (elementID){
+    return document.getElementById(elementID)
+}
 
 
 

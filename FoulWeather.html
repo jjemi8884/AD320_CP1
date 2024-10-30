@@ -1,3 +1,12 @@
+<!--
+Jusitn Jemison
+Date 10/29/2024
+
+My Foul weather page. 
+This is the webpage that will display the weather, how ducks like it. 
+-->
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,46 +26,66 @@
       <a href="FoulWeather.html">Foul Weather</a>
     </nav>
 
+    <h1>Want to know what a ducks at SJ Farms think about the current weather?</h1>
+    <article id="art">
+      <button id="btnWeather">Get Duck Weather at SJFarms</button>
+    </article>
 
+    <!-- <dialog class="chickenFloater" >
+      <p>Chicken BombAd</p>
+      <img src="images/_NIK0864.JPG" alt="Image of a red chicken looking off into the distance" width="300px"/>
+      <p>Don't forget the chickens </p>
+    </dialog> -->
+    
+    <!--input that will be hidden at the start--> 
+    <form id= "zipSection" onsubmit="return false" class="hidden"> 
+      <p class=>Now let's get the duck weather at your location by entering your 5 digit zip code below</p>
+      <input type="hidden" />
+      <label>Zipcode</label>
+      <input 
+      type="text" 
+      id="zipcode" 
+      name="zipcode" 
+      maxlength= 5 
+      minlength=5 
+      pattern="\d{5}?" 
+      required/>
+      <input type="button" id="btnZip" value="Submit" disabled/>
+      <div id = "zipDisplay" class="hidden loading">loading</div>
+    </form>
+    <section>
+      <div id="city" class="hidden">Just south of Seattle the current weather is:</div>
+      <div id="weatherData"></div>
+    </section>
+    <div id="weatherPic" class="hidden">
+      <h2 class="hidden amazingWeather" > This is a amazing duck weather, good chance of rain, not to hot and not freezing out!</h2>
+      <img class="hidden amazingWeather" src= "images/Happy Duck.png" width=500px alt="A happy mallard duck with its beak open"/>
+      <p class="hidden amazingWeather">image source: https://img.fotocommunity.com/a-happy-duck-is-a-happy-duck-cc3352a8-32a5-4557-a9a2-3b18fa45271a.jpg?height=1080</p>
 
-      <h1>Want to know what a ducks at SJ Farms think about the current weather?</h1>
-      <article id="art">
-      
-        <button id="btnWeather">Get Duck Weather at SJFarms</button>
-          <!-- place to find if the weather will be go for a duck or not -->
-      </article>
-      
-      
-      <form id= "zipSection" onsubmit="return false" class="hidden"> 
-        <p class=>Now let's get the duck weather at your location by entering your 5 digit zip code below</p>
-        <!--input that will be hidden --> 
-        <input type="hidden" />
-        <label>Zipcode</label>
-        <input 
-        type="text" 
-        id="zipcode" 
-        name="zipcode" 
-        maxlength= 5 
-        minlength=5 
-        pattern="\d{5}?" 
-        required/>
-        <input type="button" id="btnZip" value="Submit" disabled/>
-        <div id = "zipDisplay"></div>
-      </form>
-      <section>
-        <div id="city"></div>
-        <div id="weatherData"></div>
-      </section>
-      <div id="weatherPic"></div>
+      <h2 class="hidden goodWeather"> This is good duck weather, no rain, not to hot and no snow, a good lazy day</h2>
+      <img class="hidden goodWeather" src= "images/meDuck.png" width=500px alt="A sleeping white puff duck"/>
+      <p class="hidden goodWeather" >image source: Shot by me, that is the famous duck Puffy</p> 
 
-      <script src="js/foul.js" ></script>
+      <h2 class="hidden badWeather"> This horrible duck weather, a duck day we are waiting to be over!</h2>
+      <img class="hidden badWeather" src = "images/madDuck.png" width=500px alt="a image of a mad goose looking at the water just pissed of at life right at the moment" />
+      <p class="hidden badWeather">image source: https://live.staticflickr.com/4096/4936089974_6cdd131d91_b.jpg </p>
 
-      <footer>
-        <p id="trade">&trade;SJFarms incorportated</p>
-        <UL>API used in this webpage:
-          <li><a href="https://www.weather.gov/documentation/services-web-api">NOAA</a> API, to get the current weather</li>
-          <li><a href="https://geocode.maps.co/"> Geocoding</a> API, to convert addresses to geographic coordinates</a></li>
-        </UL>
-      </footer>
+      <p class="hidden error">Error loading, Please check your zip code.</p>
+      <img class="hidden error" src = "images/_NIK0675.JPG" height=500px alt="a mad duck that is looking at you cause you enterd a invalid zip code."/>
+    
+      <p class="hidden htmlError">I am not sure what happened but I received a fatal error and it hurts us </p>
+      <img class="hidden htmlError" src="images/Screenshot 2024-10-08 153613.png" alt="white duck wearing a hardhad"/>
+      <p class="hidden htmlError"> source: <a href="https://x.com/Dominic_Corr91/status/1782354014979428815">link</a> 2024-10-08 153028.png accessed on 10/8/2024, but you can not select the link cause your internet is GONE!</p>
+    </div>
+
+    <script src="js/foul.js" ></script>
+
+    <footer>
+      <p id="trade">&trade;SJFarms incorportated</p>
+      <UL>API used in this webpage:
+        <li><a href="https://www.weather.gov/documentation/services-web-api">NOAA</a> API, to get the current weather</li>
+        <li><a href="https://geocode.maps.co/"> Geocoding</a> API, to convert addresses to geographic coordinates</a></li>
+      </UL>
+    </footer>
   </body>
 </html>
