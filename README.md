@@ -6,3 +6,4 @@
 | mouse over | footer                                 | Will make the footer dissapear.                                                                                                                                                                                                    |
 | Click      | Button with #id btnScroll (Index.html) | Will start and stop the slide show, just incase you want to admire a particular duck for a while.                                                                                                                                  |
 | load       | Element ID# ChickenBomb                | An automatic function will start that will make the chicken bomb appear and disapear.                                                                                                                                              |
+| click      | Element loginBtn                       | will attemt to log into the server
