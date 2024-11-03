@@ -17,14 +17,29 @@ This is the webpage that will display the weather, how ducks like it.
   </head>
 
   <body id="body">
+   
     <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="picture.html">Pictures</a>
-      <a href="login.html">login</a>
-      <a href="FoulWeather.html">Foul Weather</a>
-    </nav>
+      <section id="centerNav">
+        <a id="home" href="index.html">Home</a>
+        <a id="about"href="/public/about.html">About</a>
+        <a id="eggPage"href="/public/eggPurchase.html">Eggs!</a>
+        <a id="Foul"href="/public/foulWeather.html">Foul Weather</a>
+      </section>
+      <section id = "login">
+        <p id="loginText">login</p>
+      </section>
 
+      <form name="loginPopup" id="loginPopup" class="hidden">
+        <label for="userName">UserName
+          <input id="userName" autocomplete="on" name="userName" placeholder="email address" type="email" required>
+        </label>
+        <label for="pword">Password
+          <input id="pword" name="password" type="password" minlength="3" maxlength="20" required>
+        </label>
+        <button type="button" id="loginBtn">submit</button>
+      </form>
+    </nav>
+    
     <h1>
       Want to know what a ducks at SJ Farms think about the current weather?
     </h1>
@@ -157,5 +172,7 @@ This is the webpage that will display the weather, how ducks like it.
         </li>
       </ul>
     </footer>
+    <script src="/public/js/scripts.js"></script>
+  </body>
   </body>
 </html>

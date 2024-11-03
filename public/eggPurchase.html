@@ -1,0 +1,56 @@
+<!--
+Jusitn Jemison
+Date 10/5/2024
+
+This is the website login in page, but it really does not work right now. If we where in production i would not include this page.
+
+but I wanted to showcase my skills with some flexbox and create the boxes that people will input their data into.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SJFarm Login</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/login.css" />
+  </head>
+  <body>
+  
+    <nav>
+      <section id="centerNav">
+        <a id="home" href="index.html">Home</a>
+        <a id="about"href="/public/about.html">About</a>
+        <a id="eggPage"href="/public/eggPurchase.html">Eggs!</a>
+        <a id="Foul"href="/public/foulWeather.html">Foul Weather</a>
+      </section>
+      <section id = "login">
+        <p id="loginText">login</p>
+      </section>
+
+      <form name="loginPopup" id="loginPopup" class="hidden">
+        <label for="userName">UserName
+          <input id="userName" autocomplete="on" name="userName" placeholder="email address" type="email" required>
+        </label>
+        <label for="pword">Password
+          <input id="pword" name="password" type="password" minlength="3" maxlength="20" required>
+        </label>
+        <button type="button" id="loginBtn">submit</button>
+      </form>
+    </nav>
+
+    <main class="log-main">
+      <section>
+        <p>User Name:</p>
+        <div></div>
+      </section>
+      <section>
+        <p>Password:</p>
+        <div></div>
+      </section>
+    </main>
+    <script src="/public/js/scripts.js"></script>
+  </body>
+  </body>
+</html>

@@ -26,19 +26,56 @@ body {
   font-weight: 700;
   font-style: normal;
 }
+
+/** NAV BAR */
 nav {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr;
   height: 50px;
   background-color: rgb(155, 142, 156);
   margin-bottom: 10px;
-  justify-content: center;
-  align-items: center;
+  
 }
 
+#centerNav {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  justify-content:space-around;
+  align-items: center;
+  
+}
 nav>a {
   place-content: center;
   padding: 5px;
 }
+
+/** login CSS */
+#login {
+  grid-column: 3;
+  grid-row:1;
+  text-align: center;
+  display: flex;
+  justify-content: end;
+  
+}
+
+#loginText {
+  margin-right: 20px;
+}
+
+#loginPopup {
+  
+  grid-column: 3;
+  background-color: beige;
+  width:fit-content;
+  grid-column: 3;
+  padding: 20px;
+  z-index: 1;
+  border-radius: 10px;
+}
+
 
 .hidden {
   display: none;

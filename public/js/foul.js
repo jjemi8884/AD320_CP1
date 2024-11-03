@@ -26,14 +26,17 @@ function init(){
 
 /**
  * a funciton that will make the footer disapear, because why not!
- */
-function footerDis(){
+//  */
+// function footerDis(){
     
-    setTimeout(() => {document.querySelector("footer").addEventListener('mouseover', () => {
-    document.querySelector("footer").classList.add("hidden");
-    })}, 10000);
+//     setTimeout(() => {document.querySelector("footer").addEventListener('mouseover', () => {
+//     document.querySelector("footer").classList.add("hidden");
+//     })}, 10000);
     
-}
+// }
+
+
+
 
 //Duck weather
 //this is near the farm
