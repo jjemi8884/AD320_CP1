@@ -1,15 +1,17 @@
 {
   "name": "ad320_cp1",
   "version": "1.0.0",
-  "description": "| Event      | Element Listening to Event             | Response/Elements Changed                                                                                                                                                                                                          |\r | ---------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\r | Click      | Button with #ID btnWeather (foul)      | Fetch Data from NOAA website (2 fetches actually) to display current weather at the SJ Farms                                                                                                                                       |\r | Input      | Input with the #ID zip code (foul)     | will not accept anything other than a 5 digit number(if you ender a incorrect Zip code then an angry duck appears), will be outline in red until you input a valid zip code and then it will turn green on the inside.             |\r | Click      | Button with the #ID btnZip (foul)      | First fetch data form the Geocode.maps.co to turn the zip code into a latitude and longitude, then send that over to NOAA weather to get the current weather in that location and the appropriate duck will display on the screen. |\r | mouse over | footer                                 | Will make the footer dissapear.                                                                                                                                                                                                    |\r | Click      | Button with #id btnScroll (Index.html) | Will start and stop the slide show, just incase you want to admire a particular duck for a while.                                                                                                                                  |\r | load       | Element ID# ChickenBomb                | An automatic function will start that will make the chicken bomb appear and disapear.                                                                                                                                              |",
-  "main": "index.js",
+  "description": "Server Side scripts for sjfarm",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-    
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
   }
 }

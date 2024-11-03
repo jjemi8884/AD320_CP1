@@ -1,11 +1,12 @@
-/*
+
+/**
 Jusitn Jemison
 Date 10/29/2024
 
 My Foul weather page javaScript. 
 This is the webpage that will display the weather, how ducks like it. 
 It uses fetches
--->*/
+*/
 
 "use strict";
 
@@ -13,14 +14,14 @@ It uses fetches
 
 
 window.addEventListener("load", init);
-const loadingDisplay = id("zipDisplay");
+
 
 /**
  * the function to initalize the button for weather, Should but used when loading software
  */
 function init(){
     id("btnWeather").addEventListener('click', getHomeWeather);
-    footerDis();
+  
     chickenBomb();   
 }
 
@@ -40,19 +41,17 @@ function init(){
 
 //Duck weather
 //this is near the farm
-const homeUrl = "https://api.weather.gov/points/47.2355,-122.1292";
-
 /**
  * Function for starting the process of getting the home weather at hardcoded location.
  */
 function getHomeWeather(){
-    getWeatherURL(homeUrl);
+    getWeatherURL("https://api.weather.gov/points/47.2355,-122.1292");
     id("city").classList.remove("hidden");
 }
 
 function getWeatherURL(url){
      
-    loadingDisplay.classList.remove("hidden");
+    id("zipDisplay").classList.remove("hidden");
     fetch(url)
     .then((response) => {
         if (!response.ok){
@@ -99,7 +98,7 @@ function updateFoulWeather(forcast){
     let temp = forcast.temperature;
     let rainPercent = forcast.probabilityOfPrecipitation.value;
     let wind = forcast.windSpeed;
-    loadingDisplay.classList.add("hidden");
+    id("zipDisplay").classList.add("hidden");
     id("weatherData").innerHTML = `
         <p>Temp is ${temp}</p>
         <p>${rainPercent}% chance of rain</p>
@@ -156,6 +155,7 @@ function duckMood(temp, rain, wind){
  */
 function inputValid(){
     if(id("zipcode").checkValidity()){
+        console.log("here");
         id("btnZip").disabled = false;
 
     }else{
@@ -245,6 +245,3 @@ function id (elementID){
 
 
 
-
-
-  

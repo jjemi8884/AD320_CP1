@@ -45,11 +45,12 @@ async function getLogin() {
         user : userName, 
         password : pword 
     };
-    const response = await fetch('/sent-userLogin', {
-        method: 'POST',
+    const response = await fetch('/send-userLogin', {
+        method: '',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({userInfo})
     });
+
     if(response.ok){
         console.log(response);
     } else {
@@ -59,7 +60,7 @@ async function getLogin() {
 
 
 /**
- * Will see if a zipcode is valid or not
+ * Will see if a email and pword is valid or not
  */
 async function inputValid(){
     if(id("userName").checkValidity() && id("pword").checkValidity()){
