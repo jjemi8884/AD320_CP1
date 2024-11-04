@@ -2,6 +2,10 @@
 USE mydb;
 
 
+INSERT INTO Customers VALUES 
+(NULL, NULL, 0, c@g.com, 12345, NULL)
+
+
 -- insert contact ID
 -- this is for the contact table that links to the employees and such
 -- auto, first name, last name, companyName

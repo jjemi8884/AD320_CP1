@@ -15,7 +15,9 @@ login
 
 
 
+
 window.addEventListener("load", init);
+let loggedIn = false;
 
 function init(){
     id("loginText").addEventListener("click", loginPopup);
@@ -41,20 +43,26 @@ async function getLogin() {
     let userName = id("userName").value;
     let pword = id("pword").value; 
     //could salt and hash pword here.
-    const userInfo = {
-        user : userName, 
-        password : pword 
-    };
-    const response = await fetch('/send-userLogin', {
-        method: '',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({userInfo})
-    });
 
-    if(response.ok){
+  
+    const response = await fetch('/send-userLogin', {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+                user: userName, 
+                password: pword                
+            })
+    })
+
+    .then((response) => response.json())
+    if(response.loginSuccess){
         console.log(response);
+        //hide login button
+        id("loginPopup").classList.add("hidden");
+        //change login to usr name
+        id("loginText").innerHTML = "logged in as: " + userName;
     } else {
-        alert("Error Code " + response.status);
+        alert("Error Code " + response.error);
     };
 }
 

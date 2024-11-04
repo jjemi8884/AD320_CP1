@@ -56,27 +56,35 @@ async function initializeDatabase(){
 // //start your servers (databases) kind of like start your engines :)
 initializeDatabase();
 
-app.post('/get-userLogin', async (req, res) => {
-    const {user , password} = req.body;
-    if(!userName){
-        return res.status(400).json({error: "did not receive a user name, cannot process account"});
-    }else if(!password){
-        return res.status(400).json({error: "did not receive password, cannot process acocunt"});
+app.post('/send-userLogin', async (req, res) => {
+   const customer = req.body.user;
+   const pword = req.body.password;
+    if(!customer || !pword ){
+        return res.status(418).json({error: "did not receive a user name or password, cannot process account"});
     }
-
+    
     //we have the userName and password
     try{
         const db = await connectToDB();
 
         //email check (no sql injection here)
+        
 
         //try to see if user is in the system
-        let userDB = await db.get('SELECT * FROM Customers WHERE email= ?', [user]);
-        if(userBD) {
-            let passwordDB = await db.get('SELECT password FROM Customer WHERE email=?', [user])
-            if(password === passwordDB){
+        let userDB = await db.get('SELECT * FROM Customers WHERE email= ?',customer);
+        console.log("query DB");
+        if(userDB) {
+            console.log("user in DB");
+            let passwordDB = await db.get('SELECT password FROM Customers WHERE email=?', customer)
+            let passworedInDB = passwordDB;
+            console.log(passworedInDB.password)
+            if(pword === passworedInDB.password){
                 //do the session key thing 
-                res.status(200).json({session: "cookie"});
+                console.log("successful login")
+                res.json({loginSuccess: true});
+                res.
+            }else{
+                res.json({loginSuccsss: false});
             }
         }      
 
@@ -86,9 +94,7 @@ app.post('/get-userLogin', async (req, res) => {
     }
 })
 
-function createSessionKey(){
-    let m
-}
+
 
 // Start the server if this file is run directly
 if (require.main === module) {
