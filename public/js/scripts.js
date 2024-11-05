@@ -17,10 +17,17 @@ login
 
 
 window.addEventListener("load", init);
-let loggedIn = false;
 
 function init(){
+    checkSessionUser();
     id("loginText").addEventListener("click", loginPopup);
+}
+
+function checkSessionUser() {
+    //const sessionUser = getCookie("sessionUser");
+    // if(sessionUser){
+    //     console.log("User still logged in with User:" + sessionUser);
+    // }
 }
 
 async function loginPopup() {
@@ -28,6 +35,7 @@ async function loginPopup() {
     //init
     id("loginBtn").disabled = true;
     let login = id("loginPopup");
+    
     
     //toggle login
     login.classList.toggle("hidden");
@@ -43,7 +51,7 @@ async function getLogin() {
     let userName = id("userName").value;
     let pword = id("pword").value; 
     //could salt and hash pword here.
-
+    
   
     const response = await fetch('/send-userLogin', {
         method: "POST",
@@ -57,14 +65,44 @@ async function getLogin() {
     .then((response) => response.json())
     if(response.loginSuccess){
         console.log(response);
-        //hide login button
-        id("loginPopup").classList.add("hidden");
-        //change login to usr name
-        id("loginText").innerHTML = "logged in as: " + userName;
+        loginChange(userName);
+     
+ 
+        
     } else {
         alert("Error Code " + response.error);
     };
 }
+
+
+
+
+function loginChange(userName){
+    //hide login button
+    id("loginPopup").classList.add("hidden");
+    //change login to usr name
+    id("loginText").innerHTML = "logged in as: " + userName;
+    //display login out button and activate it
+    id("logOut").classList.remove("hidden");
+    id("lodOut").addEventListener("click", logOut);
+
+}
+
+async function logOut(){
+    const responce = await fetch('/logout')
+    .then( () => {
+        if(!responce.ok){
+            alert("failed to log out, try again!" + responce.status);
+        }
+    })
+    .then( () => {
+        //reset the login in stuff.
+        //remove cookie 
+    })
+
+       
+}
+
 
 
 /**
@@ -78,8 +116,6 @@ async function inputValid(){
         id("loginBtn").disabled = true;
     }
 }
-
-
 
 
 /**

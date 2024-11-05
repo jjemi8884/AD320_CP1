@@ -65,6 +65,15 @@ nav>a {
   margin-right: 20px;
 }
 
+#logOut{
+  background-color: rgb(186, 111, 165);
+  border-radius: 50%;
+  height: 80%;
+  align-self: center;
+  margin-right: 10px;
+  
+}
+
 #loginPopup {
   
   grid-column: 3;

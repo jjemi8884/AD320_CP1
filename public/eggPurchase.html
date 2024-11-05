@@ -40,15 +40,34 @@ but I wanted to showcase my skills with some flexbox and create the boxes that p
       </form>
     </nav>
 
-    <main class="log-main">
-      <section>
-        <p>User Name:</p>
-        <div></div>
+    <main>
+      <h1>Egg Orders</h1>
+      <img src="images/eggs.png" width="900px"/>
+      
+      <section class="eggOrders">
+        <p> Egg Orders</p>
+        <form action="/submit_form", method="post">
+          <label for="eggType">Egg Type:</label>
+          <select name= "eggType" id = eggType>
+            <option value="duckEgg">Duck Eggs</option>
+            <option value="gooseEggs">Goose Eggs</option>
+            <option value="chickenEggs">Chicken Eggs</option>
+          </select>
+          <label for="numberInDozen">Dozen requested</label>
+          <input name="numebrOfDozen" id="numebrOfDozen" type="number" required/>
+        </form>
       </section>
-      <section>
-        <p>Password:</p>
-        <div></div>
+
+      <section class="adminMenu idden">
+        <p> Admin Menu </p>
+        <ul> 
+          <li><button id="eggInventory">Egge Inventory</button></li>
+          <li><button id="AddEgg">Add Eggs to Inventory</button></li>
+          <li><button id="eggInventory">Remove Eggs form Inventory</button></li>
+          <li><button id="userHistory">Retrieve user history</button></li> 
+        </ul>
       </section>
+      
     </main>
     <script src="js/scripts.js"></script>
   </body>
