@@ -1,0 +1,43 @@
+/*
+Justin Jemison
+DATE 08 Oct 2024
+Style sheet for the login page. I do not uet know javascript so I can not make actual logins but it looks like there are login in input :) 
+screen sizes, the color number I am using thought out the website are Color pallet #D2E0FB, FEF9D9, DEE5D4, 8EACCD
+*/
+
+
+
+
+main{
+    display: grid;
+    grid-template-columns: 1.5fr 3fr;
+    grid-template-rows: .5fr 2fr 1fr;
+    justify-content:space-around;
+    align-items:start;
+}
+
+#title {
+    grid-column: 2 ;
+}
+
+#eggPic{
+    grid-column: 2 / 3;
+    
+    grid-row-start: 2 ;
+}
+
+.eggOrders {
+    grid-column: 1;
+    grid-row: 2;
+    
+}
+
+.adminMenu  {
+    grid-column: 1;
+    grid-row: 2;
+    
+}
+
+#numberOfDozen {
+    margin-bottom: 30px;
+}
