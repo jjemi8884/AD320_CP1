@@ -18,7 +18,7 @@ but I wanted to showcase my skills with some flexbox and create the boxes that p
   </head>
   <body>
   
-    <nav>
+    <header>
       <section id="centerNav">
         <a id="home" href="index.html">Home</a>
         <a id="about"href="about.html">About</a>
@@ -27,6 +27,7 @@ but I wanted to showcase my skills with some flexbox and create the boxes that p
       </section>
       <section id = "login">
         <p id="loginText">login</p>
+        <button id="logOut" class="hidden">Logout</button>
       </section>
 
       <form name="loginPopup" id="loginPopup" class="hidden">
@@ -36,9 +37,9 @@ but I wanted to showcase my skills with some flexbox and create the boxes that p
         <label for="pword">Password
           <input id="pword" name="password" type="password" minlength="3" maxlength="20" required>
         </label>
-        <button type="button" id="loginBtn" class="hidden">submit</button>
+        <button type="button" id="loginBtn">submit</button>
       </form>
-    </nav>
+    </header>
 
     <main>
       <h1 id="title">Egg Order Menu</h1>

@@ -18,18 +18,32 @@ login
 
 window.addEventListener("load", init);
 
+
+/**
+ * the init funciton will start the listener for the login and check if a user is logged in.
+ */
 function init(){
     checkSessionUser();
     id("loginText").addEventListener("click", loginPopup);
 }
 
+/**
+ * This funciton will check if a user is already logged in and change the header to reflect
+ * that status. Each time a webpage is loaded it will see if the user is logged in.
+ */
 function checkSessionUser() {
-    //const sessionUser = getCookie("sessionUser");
-    // if(sessionUser){
-    //     console.log("User still logged in with User:" + sessionUser);
-    // }
+    const sessionUser = window.sessionStorage.getItem("userName");
+     if(sessionUser){
+        loggedIn(sessionUser);
+     }
+         
+    
 }
 
+
+/**
+ * Control the popu for the login.
+ */
 async function loginPopup() {
 
     //init
@@ -47,6 +61,12 @@ async function loginPopup() {
     let loginSuccess = id("loginBtn").addEventListener("click", getLogin);
 }
 
+
+/**
+ * this is the function that will call the server to provide the log in credentials.
+ * It creates the post request including the password and the username. 
+ * Should receive a session cookie and results from the server if it is successful. 
+ */
 async function getLogin() {
     let userName = id("userName").value;
     let pword = id("pword").value; 
@@ -66,41 +86,86 @@ async function getLogin() {
     if(response.loginSuccess){
         console.log(response);
         loginChange(userName);
-     
- 
-        
     } else {
-        alert("Error Code " + response.error);
+        clearLogin();
+        alert(response.error);
     };
 }
 
 
 
+/**
+ * This function will log in and out a user.
+ * It constact the server and gets a session cookie to ensure secure communications.
+ * It will also log out the user and contact the server to remvoe the seesion cookie. 
+ * @param {userName} userName 
+ */
+async function loginChange(userName){
+    //is the user logging in?
+    if(userName){
+        //user is loging into their account
+        window.sessionStorage.setItem("userName", userName);
+        //hide login button
+        id("loginPopup").classList.add("hidden");
+        loggedIn(userName);
+    } else {
+        //user is loging out of their account
 
-function loginChange(userName){
-    //hide login button
-    id("loginPopup").classList.add("hidden");
-    //change login to usr name
+        //remvoe user session storage llogin in info
+        window.sessionStorage.removeItem("userName");
+        
+        //tell the server we are logging out.
+        const response = await fetch('/send-userLogOff', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                    user: userName,               
+                })
+            })
+
+        //end session cookie
+        window.cookieStore.delete("sessionID")
+        .then( () => {
+            id("logOut").classList.add("hidden");
+            clearLogin();
+           
+        })
+        .then( () => {
+             console.log("you have logged out");
+             alert(`You have successfully logged out`);
+        })
+        .catch( () => {       
+          alert(`Could not log out. Error  Please try again`);
+        })
+    }
+}
+
+/**
+ * Function to set up the HTML once a user loggs in.
+ */
+function loggedIn(userName){
+     //change login to usr name
     id("loginText").innerHTML = "logged in as: " + userName;
     //display login out button and activate it
     id("logOut").classList.remove("hidden");
-    id("lodOut").addEventListener("click", logOut);
-
+    id("logOut").addEventListener("click", logOut);
 }
 
-async function logOut(){
-    const responce = await fetch('/logout')
-    .then( () => {
-        if(!responce.ok){
-            alert("failed to log out, try again!" + responce.status);
-        }
-    })
-    .then( () => {
-        //reset the login in stuff.
-        //remove cookie 
-    })
 
-       
+/**
+ * Small funciton start the log out process by calling the loginChange function.
+ */
+async function logOut(){
+    loginChange();       
+}
+
+/**
+ * small function to clear the contents of the login in button
+ */
+function clearLogin(){
+    id("loginText").innerHTML= "Login";
+    id("userName").value = "";
+    id("pword").value = "";
 }
 
 

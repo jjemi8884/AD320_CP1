@@ -59,6 +59,11 @@ async function initializeDatabase(){
 // //start your servers (databases) kind of like start your engines :)
 initializeDatabase();
 
+
+/**
+ * Funciton to get post request form the client and process their request to log into their account
+ * T
+ */
 app.post('/send-userLogin', async (req, res) => {
    const customer = req.body.user;
    const pword = req.body.password;
@@ -90,14 +95,23 @@ app.post('/send-userLogin', async (req, res) => {
                 res.json({loginSuccess: true,});
                 
             }else{
-                res.json({loginSuccsss: false});
+                console.log("Failed login for user " + customer + ", incorrect password");
+                res.status(500).json({error: "wrong login credentials"});
             }
-        }      
+        }else{
+            console.log("Falied login for user " + customer + ", user not in database");
+                res.json({error: "wrong login credentials"});
+        }    
 
 
     } catch (error) {
-        res.status(500).json({error: 'did not process informaiton in SQL'});
+        console.log("fatal error with database.")
+        res.status(500).json({error: 'oops, something went really wrong. Please call us!'});
     }
+})
+
+app.post('/send-userLogOff', async (req, res) => {
+    const customer = req.body.user;
 })
 
 /**
