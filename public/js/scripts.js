@@ -23,8 +23,12 @@ window.addEventListener("load", init);
  * the init funciton will start the listener for the login and check if a user is logged in.
  */
 function init(){
+    
     checkSessionUser();
     id("loginText").addEventListener("click", loginPopup);
+    id("loginBtn").addEventListener("click", getLogin);
+    id("loginPopup").addEventListener("input", inputValid);
+    id("logOut").addEventListener("click", logOut);
 }
 
 /**
@@ -36,8 +40,6 @@ function checkSessionUser() {
      if(sessionUser){
         loggedIn(sessionUser);
      }
-         
-    
 }
 
 
@@ -48,17 +50,9 @@ async function loginPopup() {
 
     //init
     id("loginBtn").disabled = true;
-    let login = id("loginPopup");
-    
-    
+        
     //toggle login
-    login.classList.toggle("hidden");
-
-    //check for valid inputs
-    login.addEventListener("input", inputValid);
-
-    //submit the info and get login 
-    let loginSuccess = id("loginBtn").addEventListener("click", getLogin);
+    id("loginPopup").classList.remove("hidden");   
 }
 
 
@@ -81,63 +75,17 @@ async function getLogin() {
                 password: pword                
             })
     })
-
     .then((response) => response.json())
     if(response.loginSuccess){
         console.log(response);
-        loginChange(userName);
+        window.sessionStorage.setItem("userName", userName);
+        id("loginPopup").classList.add("hidden");
+        loggedIn(userName);
     } else {
         clearLogin();
         alert(response.error);
     };
-}
-
-
-
-/**
- * This function will log in and out a user.
- * It constact the server and gets a session cookie to ensure secure communications.
- * It will also log out the user and contact the server to remvoe the seesion cookie. 
- * @param {userName} userName 
- */
-async function loginChange(userName){
-    //is the user logging in?
-    if(userName){
-        //user is loging into their account
-        window.sessionStorage.setItem("userName", userName);
-        //hide login button
-        id("loginPopup").classList.add("hidden");
-        loggedIn(userName);
-    } else {
-        //user is loging out of their account
-
-        //remvoe user session storage llogin in info
-        window.sessionStorage.removeItem("userName");
-        
-        //tell the server we are logging out.
-        const response = await fetch('/send-userLogOff', {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                    user: userName,               
-                })
-            })
-
-        //end session cookie
-        window.cookieStore.delete("sessionID")
-        .then( () => {
-            id("logOut").classList.add("hidden");
-            clearLogin();
-           
-        })
-        .then( () => {
-             console.log("you have logged out");
-             alert(`You have successfully logged out`);
-        })
-        .catch( () => {       
-          alert(`Could not log out. Error  Please try again`);
-        })
-    }
+    
 }
 
 /**
@@ -148,15 +96,42 @@ function loggedIn(userName){
     id("loginText").innerHTML = "logged in as: " + userName;
     //display login out button and activate it
     id("logOut").classList.remove("hidden");
-    id("logOut").addEventListener("click", logOut);
+    
 }
 
 
 /**
- * Small funciton start the log out process by calling the loginChange function.
+ * Funciton to log out of the system
+ * @param {userName} userName 
  */
-async function logOut(){
-    loginChange();       
+async function logOut() {
+
+    try{
+        console.log("loggin out");
+        const userName = window.sessionStorage.getItem("userName");
+        //remove user session storage login in info
+        //tell the server we are logging out.
+        const response = await fetch('/send-userLogOff', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                user: userName              
+            })
+        })
+        if(response.logOutSuccess){
+            console.log("session is terminated");
+        }
+        //end session cookie
+        window.sessionStorage.removeItem("userName");
+        window.cookieStore.delete("sessionID")
+        id("logOut").classList.add("hidden");
+        clearLogin();
+        console.log("you have logged out");
+        alert(`You have successfully logged out`);
+    } catch {
+           
+        alert(`Could not log out. Error  Please try again`);
+    }
 }
 
 /**
@@ -167,8 +142,6 @@ function clearLogin(){
     id("userName").value = "";
     id("pword").value = "";
 }
-
-
 
 /**
  * Will see if a email and pword is valid or not

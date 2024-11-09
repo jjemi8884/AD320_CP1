@@ -90,15 +90,18 @@ app.post('/send-userLogin', async (req, res) => {
                 console.log("Creating New Session Key" + sessionID);
                 await db.exec('UPDATE customers SET sessionID =? WHERE email=?', sessionID, customer);
                 console.log("Updated Database with Session ID")
+                db.close();
                 res.cookie("sessionID", sessionID, {expires: new Date(Date.now() + 60 * 1000)});
                 console.log("successful login")
                 res.json({loginSuccess: true,});
                 
             }else{
+                db.close();
                 console.log("Failed login for user " + customer + ", incorrect password");
                 res.status(500).json({error: "wrong login credentials"});
             }
         }else{
+            db.close();
             console.log("Falied login for user " + customer + ", user not in database");
                 res.json({error: "wrong login credentials"});
         }    
@@ -111,8 +114,35 @@ app.post('/send-userLogin', async (req, res) => {
 })
 
 app.post('/send-userLogOff', async (req, res) => {
-    const customer = req.body.user;
+    
+    const userName = req.body.user;
+    const sessionID = req.cookies['sessionID'];
+    console.log("User " + req.body.user + " requeted log off");
+    if(checkAutho(sessionID, userName)){
+        const db = await connectToDB();
+        db.run("UPDATE Customers SET sessionID = '' where email = ?", userName);
+        db.close();
+        res.json({logOutSuccess : true});
+        console.log("remove sessionID from user" + userName);
+    }else {
+        res.json({logOutSuccess : false});
+        console.log("failed autho for user" + userName);
+        res.json("User was already logged of");
+    }
+
 })
+
+async function checkAutho(sessionID, userName){
+    const db = await connectToDB();
+
+    const sessionIDQuery = await db.get('SELECT email FROM Customers WHERE sessionID=?', userName);
+    if(sessionIDQuery === sessionID){
+        return true;
+    }else {
+        return false
+    }
+    db.close();
+}
 
 /**
  * Why reinvent  the wheel when this person created the perfect Seesion Id Generator!
