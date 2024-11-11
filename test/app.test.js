@@ -156,9 +156,23 @@ describe('GET /admin-check', () => {
     request(app)
       .get('/admin-check')
       .expect('Content-Type', /json/)
-      .expect(400, done)
+      .expect(200, done)
       
     })
+})
+
+describe('POST /buyEggs', () => {
+  it("should return a succes goodEggs", (done) => {
+    request(app)
+    .post('/buyEggs')
+    .send({customer: "test@test", duckEggs: 1, gooseEggs: 1, chickenEggs: 1 })
+    .expect('Content-Type', /json/)
+    .end((err, res) => {
+      if(err) return done(err);
+      expect(res.body.eggsGood).to.be.true;
+      done();
+    });
+  });
 })
 
 

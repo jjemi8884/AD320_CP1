@@ -28,6 +28,8 @@ function init(){
         resetCart();
     }
 
+    id('userHistory').addEventListener('click', displayCustomers);
+
 }
 
 /**
@@ -48,6 +50,10 @@ async function checkAdmin(logOutCheck){
             id("adminMenuid").classList.add("hidden");
        }
     }
+}
+
+async function displayEggInventory(){
+
 }
 
 /**
@@ -73,19 +79,25 @@ async function buyEggs(){
 
         //send the cart to the server
         try{
-            console.log("sending egg request to server");
+           
+
+            const email = window.sessionStorage.getItem("userName");
+            
             const response = await fetch("/buyEggs", {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
+                    customer: window.sessionStorage.getItem("userName"),
                     duckEggs : eggCartJSON[0].duckEggs,
                     gooseEggs : eggCartJSON[1].gooseEggs,
                     chickenEggs : eggCartJSON[2].chickenEggs
                 })
             })
-            if(response.eggsAvaiable){
-                alert("Order has been processed");
-            }else if(!response.eggsAvaiable){
+            .then((response) => response.json())
+            if(response.eggsGood){
+                alert("Order has been processed you own $" + response.cost + ".00 Dollars, you can pay during pick");
+                resetCart();
+            }else{
                 alert("Sorry, we do not have the current invenotry to fulfill that order.");
             }
             
@@ -100,7 +112,7 @@ async function buyEggs(){
 function currentCart(){
 const currentCart = window.localStorage.getItem("eggCart");
 const currentCartJSON = JSON.parse(currentCart);
-console.log(currentCartJSON);
+
 id("dEggs").innerHTML = currentCartJSON[0].duckEggs;
 id("gEggs").innerHTML = currentCartJSON[1].gooseEggs;
 id("cEggs").innerHTML = currentCartJSON[2].chickenEggs;
@@ -146,7 +158,7 @@ function addToCart(){
     
     window.localStorage.removeItem("eggCart");
     window.localStorage.setItem("eggCart", JSON.stringify(eggCartJSON));
-    console.log("added to cart");
+    
 
     currentCart();
 

@@ -53,18 +53,98 @@ app.get('/admin-check', async (req, res) => {
         const dbQuery = await db.get("SELECT * FROM customers WHERE sessionID = ?", sessionID);
         if(dbQuery.Admin === 1){
             res.status(200).json({isAdmin:true});
-            console.log("valid admin sign into admin menu")
+            console.log("valid admin sign into admin menu");
         }else{
             res.status(200).json({isAdmin:false});
-            console.log("Invalid admin sign into admin menu")
         }
 
     }catch{
-        res.status(400).json({error:" having some issue be with you in minute"})
-        console.log("Failed autho for admin")
+        res.status(200).json({isAdmin: false});
     }
 })
 
+
+//method to buy eggs
+app.post('/buyEggs', async (req, res) => {
+    try{
+        const db = await connectToDB();
+        const customer = req.body.customer;
+        const numDuckEggs = req.body.duckEggs;
+        const numGooseEggs = req.body.gooseEggs;
+        const numChickenEggs = req.body.chickenEggs;
+        const total = (numDuckEggs  * 5) + (numGooseEggs * 10) + (numChickenEggs * 4); 
+        
+        const eggsGathered = await db.all(`
+            SELECT sum(e.quanity) AS 'total', speciesName 
+            FROM eggs e JOIN speciesType s 
+            ON e.speciesType = s.speciesID 
+            GROUP BY s.speciesName 
+            ORDER BY speciesName;`);
+            
+        const eggsSold = await db.all(`
+            SELECT sum(sh.quanity) AS eggSold, s.speciesName 
+            FROM ShoppingCart sh JOIN eggs e 
+            ON sh.eggID = e.eggID JOIN speciesType s 
+            ON e.speciesType = s.speciesID 
+            GROUP BY s.speciesName 
+            ORDER BY speciesName;`);
+            
+                
+            //update the quantities 
+        const duckInv = Number(eggsGathered[1].total) - Number(eggsSold[1].eggSold) - Number(numDuckEggs * 12);
+        const chickenInv = Number(eggsGathered[0].total) - Number(eggsSold[0].eggSold) - Number(numChickenEggs * 12 );
+        const gooseInv = Number(eggsGathered[2].total) - Number(eggsSold[2].eggSold) - Number(numGooseEggs * 12);
+            
+       
+        // //get the current account balance
+        const dbCustomer = await db.get("SELECT * from Customers WHERE email=?" ,customer);
+        const customerBalance = total + dbCustomer.currentBalance;
+        if(duckInv < 0 || chickenInv < 0 || gooseInv < 0){
+            console.log("We are low on inventory and can not fulfill orders.");
+             res.status(200);
+             res.json({eggsGood : false})
+             db.close();
+        }else{
+            res.json({eggsGood : true, cost: customerBalance});
+
+             //update transactions
+            
+            // //update user
+             const customerTableUpdate = await db.run(`UPDATE customers SET lastDateBought = ? WHERE email = ?`, [new Date().toISOString(),customer])
+             const customerTableUpdate2 = await db.run(`UPDATE customers SET currentBalance = ?WHERE email = ?`, [customerBalance, customer]);
+            
+            // //update sales transaction
+            //get the customer ID
+            const custID = await db.get("SELECT CustomerID FROM customers WHERE email=?", customer);
+            
+            const transactionInsert = await db.run("INSERT INTO Transactions VALUES (NULL, ?, ?)", [custID.CustomerID , new Date().toISOString()]);
+            
+            
+            // //add duck
+            if(numDuckEggs > 0){
+                await db.run("INSERT INTO ShoppingCart VALUES (?, 1, ?)", [transactionInsert.lastID, Number(numDuckEggs * 12) ]);
+            }
+            
+            // //add goose
+            if(numGooseEggs > 0){
+                 await db.run("INSERT INTO ShoppingCart VALUES (?, 2, ?)", [transactionInsert.lastID, Number(numGooseEggs * 12) ]);
+            }
+            
+            // // //add chickens
+            if(numChickenEggs > 0){
+              await db.run("INSERT INTO ShoppingCart VALUES (?, 3, ?)", [transactionInsert.lastID, Number(numChickenEggs * 12) ]);
+            }
+            
+            
+             console.log("duck: " + duckInv + " /Chicken: " + chickenInv + "/Goose: " + gooseInv);
+           
+             db.close();
+        }
+
+    }catch{
+        res.status(418).json("bad things happened");
+    }
+})
 //database connection (tested in userLogin and out)
 async function connectToDB() {
     const db = await sqlite.open({
@@ -78,6 +158,7 @@ async function connectToDB() {
 async function initializeDatabase(){
     const db = await connectToDB();
 }
+
 
 // //start your servers (databases) kind of like start your engines :)
 initializeDatabase();
