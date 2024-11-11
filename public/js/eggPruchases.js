@@ -2,9 +2,10 @@
 Jusitn Jemison
 Date 11/10/2024
 
-THe js file that will hold all the JS for this page.
+THe js file that will hold all the JS for the eggPruchase
+Lots of stuff going on here with admin menus and such
 */
-
+"use strict";
 
 window.addEventListener("load", init)
 
@@ -44,14 +45,19 @@ async function addEggsToInventory(){
             numEggs : numOfEggs
         })
     })
+    .then(checkStatus)
     .then((response) => response.json())
-    if(response){
-       displayEggInventory();
-       id('numOfEggsAdding').value = '';
-
-    }
+    .then( displayEggInventory())
+    .then(id('numOfEggsAdding').value = '');
         
     
+}
+
+async function checkStatus(response){
+    if(!response.ok){
+        throw new Error( await response.text());
+    }
+    return response;
 }
 
 /**
@@ -104,7 +110,7 @@ async function buyEggs(){
     }else{
 
     
-        try{
+    
 
 
             const price = getPrice();
@@ -150,9 +156,7 @@ async function buyEggs(){
             }catch{
                 alert("Lost connection with the server");
             }
-        }catch{
-            alert("need to have something in cart before you can buy");
-        }
+        
 
     }
 }
@@ -239,8 +243,8 @@ function getPrice(){
     const duckCost =  (Number(currentCartJSON[0].duckEggs)) * 5;
     const gooseCost = (Number(currentCartJSON[1].gooseEggs)) * 10;
     const chickenCost = (Number(currentCartJSON[2].chickenEggs)) * 4;
-
-    return total = duckCost + gooseCost + chickenCost;
+    console.log(duckCost + " " + gooseCost + " " + chickenCost);
+    return duckCost + gooseCost + chickenCost;
     
 }
 

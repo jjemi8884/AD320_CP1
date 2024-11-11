@@ -86,9 +86,9 @@ app.get('/eggInventory', async (req, res) => {
         
 
         //update the quantities 
-        const duckInv = Number(eggsGathered[1].total) - Number(eggsSold[1].eggSold);
-        const chickenInv = Number(eggsGathered[0].total) - Number(eggsSold[0].eggSold);
-        const gooseInv = Number(eggsGathered[2].total) - Number(eggsSold[2].eggSold);
+        const duckInv = Number(eggsGathered[2].total) - Number(eggsSold[1].eggSold);
+        const chickenInv = Number(eggsGathered[1].total) - Number(eggsSold[0].eggSold);
+        const gooseInv = Number(eggsGathered[3].total) - Number(eggsSold[2].eggSold);
 
         db.close;
 
@@ -140,11 +140,11 @@ app.post('/buyEggs', async (req, res) => {
             GROUP BY s.speciesName 
             ORDER BY speciesName;`);
             
-                
+       
             //update the quantities 
-        const duckInv = Number(eggsGathered[1].total) - Number(eggsSold[1].eggSold) - Number(numDuckEggs * 12);
-        const chickenInv = Number(eggsGathered[0].total) - Number(eggsSold[0].eggSold) - Number(numChickenEggs * 12 );
-        const gooseInv = Number(eggsGathered[2].total) - Number(eggsSold[2].eggSold) - Number(numGooseEggs * 12);
+        const duckInv = Number(eggsGathered[2].total) - Number(eggsSold[1].eggSold) - Number(numDuckEggs * 12);
+        const chickenInv = Number(eggsGathered[1].total) - Number(eggsSold[0].eggSold) - Number(numChickenEggs * 12 );
+        const gooseInv = Number(eggsGathered[3].total) - Number(eggsSold[2].eggSold) - Number(numGooseEggs * 12);
             
        
         // //get the current account balance
