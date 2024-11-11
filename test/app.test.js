@@ -2,6 +2,9 @@ const request = require('supertest');
 const { expect } = require('chai');
 const app = require('../app');  // Adjust the path if necessary
 const cookieParser = require('cookie-parser');
+const { application } = require('express');
+
+
 
 
 describe('GET /', () => {
@@ -13,7 +16,7 @@ describe('GET /', () => {
   });
 });
 
-describe('/about', () => {
+describe('GET /about', () => {
   it('should return the about page', (done) =>{
     request(app)
       .get('/about')
@@ -22,7 +25,7 @@ describe('/about', () => {
   });
 });
 
-describe('/contact', () => {
+describe('GET /contact', () => {
   it('should return the contact page', (done) =>{
     request(app)
       .get('/contact')
@@ -31,7 +34,7 @@ describe('/contact', () => {
   });
 });
 
-describe('/foulWeather', () => {
+describe('GET /foulWeather', () => {
   it('should return the foulWeather page', (done) =>{
     request(app)
       .get('/foulWeather')
@@ -40,7 +43,7 @@ describe('/foulWeather', () => {
   });
 });
 
-describe('/eggPruchase', () => {
+describe('GET /eggPruchase', () => {
   it('should return the eggPurchase page', (done) =>{
     request(app)
       .get('/eggPurchase')
@@ -49,11 +52,11 @@ describe('/eggPruchase', () => {
   });
 });
 
-describe('POST /send-loggin', () => {
-  it('should try to log in  and return success', (done) => {
+describe('POST /send-userLogin', () => {
+  it('should try to log in and return success', (done) => {
     request(app)
-      .post('/send-message')
-      .send({ username: 'test@test', password: 'testPassword' })
+      .post('/send-userLogin')
+      .send({ user: 'test@test', password: 'testPassword' })
       .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
@@ -62,20 +65,103 @@ describe('POST /send-loggin', () => {
         done();
       });
   });
+})
 
-//   it('should fail when username or message is missing', (done) => {
-//     request(app)
-//       .post('/send-message')
-//       .send({ username: 'TestUser' })  // Missing message
-//       .expect('Content-Type', /json/)
-//       .expect(400)  // Bad request
-//       .end((err, res) => {
-//         if (err) return done(err);
-//         expect(res.body.error).to.equal('Username and message are required');
-//         done();
-//       });
-//   });
-// });
+describe('POST /send-userLogin', () => {
+  it('should fail to log in and return a error 500', (done) => {
+    request(app)
+      .post('/send-userLogin')
+      .send({ user: 'test@test', password: 'badPassword' })
+      .expect('Content-Type', /json/)
+      .expect(500)
+      .end((err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+})
+
+describe('POST /send-userLogin', () => {
+  it('should fail to log in and return a error 500', (done) => {
+    request(app)
+      .post('/send-userLogin')
+      .send({user: 'bad@user', password: 'password' })
+      .expect('Content-Type', /json/)
+      .expect(500)
+      .end((err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+})
+
+describe('POST /send-userLogin', () => {
+  it('should fail to log in and return a error 418', (done) => {
+    request(app)
+      .post('/send-userLogin')
+      .send({user: '', password: 'password' })
+      .expect('Content-Type', /json/)
+      .expect(418)
+      .end((err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+})
+
+describe('POST /send-userLogOut', () => {
+  it('should log out of user and return success', (done) => {
+    request(app)
+      .post('/send-userLogOff')
+      .send({ user: 'test@test'})
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.body.logOutSuccess).to.be.true;
+        done();
+      });
+  });
+})
+
+describe('POST /send-userLogOut', () => {
+  it('should fail log out of user and return false for logout', (done) => {
+    request(app)
+      .post('/send-userLogOff')
+      .send({ user: 'badUser@test'})
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.body.logOutSuccess).to.be.false;
+        done();
+      });
+  });
+})
+
+describe('POST /send-userLogOut', () => {
+  it('should fail log out of user and return false for logout', (done) => {
+    request(app)
+      .post('/send-userLogOff')
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.body.logOutSuccess).to.be.false;
+        done();
+      });
+  });
+})
+
+describe('GET /admin-check', () => {
+  it('should return a false (no session key)', (done) => {
+    request(app)
+      .get('/admin-check')
+      .expect('Content-Type', /json/)
+      .expect(400, done)
+      
+    })
+})
+
+
 
 // describe('GET /get-users', () => {
 //   it('should return a list of online users', (done) => {

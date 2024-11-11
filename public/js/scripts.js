@@ -134,6 +134,8 @@ async function logOut() {
     }
 }
 
+
+
 /**
  * small function to clear the contents of the login in button
  */

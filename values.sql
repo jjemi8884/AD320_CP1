@@ -124,20 +124,20 @@ INSERT INTO eggCollectItem VALUES
 -- *************** Bird Types **********************
 
 INSERT INTO birdtypes VALUES
-(NULL, 'Rouen', 'Brown', 180, 1),
-(NULL, 'sebastopol', 'White', 50, 2),
-(NULL, 'Road Island Red', 'Red', 300, 3),
-(NULL, 'Chinese', 'Grey', 40,2), -- 4
-(NULL, 'Embden', 'white', 30,2),
-(NULL, 'White Chinese', 'white', 100,2),
-(NULL, 'Canadian','grey', 9, 2), -- 7
-(NULL, 'Pekin', 'white', 200, 1),
-(NULL, 'Runner', 'various', 180, 1),
-(NULL, 'Khaki Campbell', 'brown', 340, 1), -- 10
-(NULL, 'Swedish Blue', 'various', 180, 1),
-(NULL, 'Muscovy', 'grey', 190, 1), -- 12
-(NULL, 'African Grey', 'grey', 40, 3);
-INSERT INTO ducks VALUES
+(NULL, 'Rouen', 'Brown', 180),
+(NULL, 'sebastopol', 'White', 50),
+(NULL, 'Road Island Red', 'Red', 300),
+(NULL, 'Chinese', 'Grey', 40), -- 4
+(NULL, 'Embden', 'white', 30),
+(NULL, 'White Chinese', 'white', 100),
+(NULL, 'Canadian','grey', 9), -- 7
+(NULL, 'Pekin', 'white', 200),
+(NULL, 'Runner', 'various', 180),
+(NULL, 'Khaki Campbell', 'brown', 340), -- 10
+(NULL, 'Swedish Blue', 'various', 180),
+(NULL, 'Muscovy', 'grey', 190), -- 12
+(NULL, 'African Grey', 'grey', 40);
+INSERT INTO aminal VALUES
 (NULL, 'Batman', '20160705', 1, 'f'),
 (NULL, 'fleet', '20160705', 1, 'f'),
 (NULL, 'Charlie', '20190701', 1, 'f'),

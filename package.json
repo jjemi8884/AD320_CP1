@@ -4,7 +4,7 @@
   "description": "Server Side scripts for sjfarm",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "test": "nyc mocha"
   },
   "author": "",
@@ -22,7 +22,11 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "babel-jest": "^29.7.0",
+    "chai": "^4.3.4",
     "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0"
+    "jest-environment-jsdom": "^29.7.0",
+    "mocha": "^10.8.2",
+    "nyc": "^17.1.0",
+    "supertest": "^7.0.0"
   }
 }

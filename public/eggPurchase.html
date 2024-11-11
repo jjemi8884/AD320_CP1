@@ -45,7 +45,7 @@ but I wanted to showcase my skills with some flexbox and create the boxes that p
       <h1 id="title">Egg Order Menu</h1>
       <img id="eggPic" src="images/eggs.png" width="80%"/>
       
-      <section class="eggOrders">
+      <section id= "eggOrderMenu" class="eggOrders">
         <h2>Place your orders here</h2>
         <p>Eggs are sold in quantities of a dozen</p>
         <form action="/submit_form", method="post">
@@ -53,17 +53,19 @@ but I wanted to showcase my skills with some flexbox and create the boxes that p
           <input name="numebrOfDozen" id="numberOfDozen" type="number" required/>
         </form>
           <label for="eggType">Egg Type:</label>
-          <select name= "eggType" id = eggType>
-            <option value="duckEgg">Duck Eggs $5.00 dozen</option>
+          <select name= "eggType" id = "eggType">
+            <option value="duckEggs">Duck Eggs $5.00 dozen</option>
             <option value="gooseEggs">Goose Eggs $10.00 dozen</option>
             <option value="chickenEggs">Chicken Eggs $4.00 dozen</option>
           </select>
           <p id = totalCostDisplay></p>
-          <button id="buyBtn" type="button" class="hidden">Buy</button>
+          <button id="addToCart" type="button">add To Car</button>
+          <button id="resetCart" type="button">Reset Cart</button>
+          <button id="buyBtn" type="button">Buy</button>
       </section>
 
-      <section class="adminMenu hidden" >
-        <h2> Admin Menu </h2><br>
+      <section id ="adminMenuid" class="adminMenu hidden" >
+        <h2> Admin Menu </h2>
         <ul> 
           <li><button id="eggInventory">Egge Inventory</button></li>
           <li><button id="AddEgg">Add Eggs to Inventory</button></li>
@@ -71,9 +73,17 @@ but I wanted to showcase my skills with some flexbox and create the boxes that p
           <li><button id="userHistory">Retrieve user history</button></li> 
         </ul>
       </section>
+
+      <div id="displayResults">
+        <p>Duck Eggs: <span id="dEggs"></span> Dozen</p>
+        <p>Goose Eggs: <span id="gEggs"></span> Dozen </p>
+        <p>Chicken Eggs: <span id="cEggs"></span> Dozen</p>
+        <p>Total: $<span id="totalCost"></span> dollars U.S.</p>
+      </div>
       
     </main>
     <script src="js/scripts.js"></script>
+    <script src="js/eggPruchases.js"></script>
   </body>
   </body>
 </html>
