@@ -63,6 +63,57 @@ app.get('/admin-check', async (req, res) => {
     }
 })
 
+app.get('/eggInventory', async (req, res) => {
+
+    try{
+
+        const db = await connectToDB();
+
+        const eggsGathered = await db.all(`
+            SELECT sum(e.quanity) AS 'total', speciesName 
+            FROM eggs e JOIN speciesType s 
+            ON e.speciesType = s.speciesID 
+            GROUP BY s.speciesName 
+            ORDER BY speciesName;`);
+            
+        const eggsSold = await db.all(`
+            SELECT sum(sh.quanity) AS eggSold, s.speciesName 
+            FROM ShoppingCart sh JOIN eggs e 
+            ON sh.eggID = e.eggID JOIN speciesType s 
+            ON e.speciesType = s.speciesID 
+            GROUP BY s.speciesName 
+            ORDER BY speciesName;`);
+        
+
+        //update the quantities 
+        const duckInv = Number(eggsGathered[1].total) - Number(eggsSold[1].eggSold);
+        const chickenInv = Number(eggsGathered[0].total) - Number(eggsSold[0].eggSold);
+        const gooseInv = Number(eggsGathered[2].total) - Number(eggsSold[2].eggSold);
+
+        db.close;
+
+        res.status(200).json({ok: true, duck: duckInv, goose : gooseInv, chicken: chickenInv});
+
+    }catch {
+        req.status(400).json({error : "unable too connect to Database."});
+    }
+})
+
+app.post('/addEggInv', async (req, res) => {
+    
+    console.log("Added eggs to Inventory");
+    //get the response 
+    const typeOfEgg = req.body.typeOfEgg;
+    const numOfEgg = req.body.numEggs;
+    try{
+        const db = await connectToDB();
+        await db.run("INSERT INTO eggs VALUES (NULL, ?, ?, ?)", [numOfEgg, typeOfEgg, new Date().toISOString()]);
+        res.status(200).json({})       
+    }catch{
+        res.status(500);
+    }
+
+})
 
 //method to buy eggs
 app.post('/buyEggs', async (req, res) => {
@@ -196,7 +247,7 @@ app.post('/send-userLogin', async (req, res) => {
                 if(dbResult.changes == 1){
                     console.log("Updated Database with Session ID")
                     db.close();
-                    res.cookie("sessionID", sessionID, {expires: new Date(Date.now() + 60 * 1000)});
+                    res.cookie("sessionID", sessionID, {expires: new Date(Date.now() + 60 * 10000)});
                     console.log("successful login")
                     res.json({loginSuccess: true,});
                 }else{

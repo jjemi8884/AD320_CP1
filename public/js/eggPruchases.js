@@ -22,14 +22,36 @@ function init(){
     id("addToCart").addEventListener("click", addToCart);
     id("buyBtn").addEventListener("click", buyEggs);
     id("resetCart").addEventListener("click", resetCart);
+    id("addEggs").addEventListener("click", addEggsToInventory);
     if(window.localStorage.getItem("eggCart")){
         currentCart();
     }else{
         resetCart();
     }
 
-    id('userHistory').addEventListener('click', displayCustomers);
+    displayEggInventory();
 
+}
+
+async function addEggsToInventory(){
+    const eggType = id('addEggType').value
+    const numOfEggs = id('numOfEggsAdding').value
+    const response = await fetch("/addEggInv", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            typeOfEgg : eggType,
+            numEggs : numOfEggs
+        })
+    })
+    .then((response) => response.json())
+    if(response){
+       displayEggInventory();
+       id('numOfEggsAdding').value = '';
+
+    }
+        
+    
 }
 
 /**
@@ -52,59 +74,85 @@ async function checkAdmin(logOutCheck){
     }
 }
 
+/**
+ * funciton to display the current egg invintory
+ */
 async function displayEggInventory(){
-
+    const response = await fetch('/eggInventory')
+    .then((response) => response.json())
+    
+    if(response.ok){
+      id("eggD").innerHTML= Math.floor(Number(response.duck) / 12) + " Dozen avaiable"; 
+      id("eggG").innerHTML= Math.floor(Number(response.goose) / 12) + " Dozen avaiable"; 
+      id("eggC").innerHTML= Math.floor(Number(response.chicken) / 12) + " Dozen avaiable"; 
+    }else{
+        console.log(response.error);
+    }
 }
+
 
 /**
  * make purchase of eggs and get a responce from the server
  */
 async function buyEggs(){
     //is user logged in?
+
+    
+    
     if(!window.sessionStorage.getItem("userName")){
-        alert("Please log into to Buy Eggs");
+        alert("Please log into to Buy Eggs");  
     }else{
-        const price = getPrice();
-        //alert("You have bought eggs for $" + getPrice() + ".00");
 
-        //get the cart
-        const eggCart = window.localStorage.getItem("eggCart");
-        const eggCartJSON = JSON.parse(eggCart);
-
-        const eggCartServer = {
-            'duckEggs': eggCartJSON[0].duckEggs,
-            'gooseEggs': eggCartJSON[1].gooseEggs,
-            'chickenEggs': eggCartJSON[2].chickenEggs
-        }
-
-        //send the cart to the server
+    
         try{
-           
 
-            const email = window.sessionStorage.getItem("userName");
-            
-            const response = await fetch("/buyEggs", {
-                method: "POST",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    customer: window.sessionStorage.getItem("userName"),
-                    duckEggs : eggCartJSON[0].duckEggs,
-                    gooseEggs : eggCartJSON[1].gooseEggs,
-                    chickenEggs : eggCartJSON[2].chickenEggs
-                })
-            })
-            .then((response) => response.json())
-            if(response.eggsGood){
-                alert("Order has been processed you own $" + response.cost + ".00 Dollars, you can pay during pick");
-                resetCart();
-            }else{
-                alert("Sorry, we do not have the current invenotry to fulfill that order.");
+
+            const price = getPrice();
+            //alert("You have bought eggs for $" + getPrice() + ".00");
+
+            //get the cart
+            const eggCart = window.localStorage.getItem("eggCart");
+            const eggCartJSON = JSON.parse(eggCart);
+
+            const eggCartServer = {
+                'duckEggs': eggCartJSON[0].duckEggs,
+                'gooseEggs': eggCartJSON[1].gooseEggs,
+                'chickenEggs': eggCartJSON[2].chickenEggs
             }
             
+
+
+            //send the cart to the server
+            try{
+            
+
+                const email = window.sessionStorage.getItem("userName");
+                
+                const response = await fetch("/buyEggs", {
+                    method: "POST",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        customer: window.sessionStorage.getItem("userName"),
+                        duckEggs : eggCartJSON[0].duckEggs,
+                        gooseEggs : eggCartJSON[1].gooseEggs,
+                        chickenEggs : eggCartJSON[2].chickenEggs
+                    })
+                })
+                .then((response) => response.json())
+                if(response.eggsGood){
+                    alert("Order has been processed you own $" + response.cost + ".00 Dollars, you can pay during pick");
+                    resetCart();
+                    displayEggInventory();
+                }else{
+                    alert("Sorry, we do not have the current invenotry to fulfill that order.");
+                }
+                
+            }catch{
+                alert("Lost connection with the server");
+            }
         }catch{
-            alert("Lost connection with the server");
+            alert("need to have something in cart before you can buy");
         }
-    
 
     }
 }

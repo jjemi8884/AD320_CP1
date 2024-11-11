@@ -176,6 +176,24 @@ describe('POST /buyEggs', () => {
 })
 
 
+describe('GET /eggInventory', async (req, res) => {
+  it("should return the duck, goose, and chicken things", (done) => {
+    request(app)
+    .get('/eggInventory')
+    .expect('Content-Type', /json/)
+    .expect(200 ,done)
+  })
+})
+
+describe('POST /addEggInv', async (req, res) => {
+  it("should add 1 duck egg and response with a 200", (done) => {
+    request(app)
+    .post('/addEggInv')
+    .send({typeOfEgg: 4, numEggs : 2})
+    .expect('Content-Type', /json/)
+    .expect(200, done)
+  })
+})
 
 // describe('GET /get-users', () => {
 //   it('should return a list of online users', (done) => {

@@ -50,7 +50,7 @@ but I wanted to showcase my skills with some flexbox and create the boxes that p
         <p>Eggs are sold in quantities of a dozen</p>
         <form action="/submit_form", method="post">
           <label for="numberInDozen">How Many Dozen </label>
-          <input name="numebrOfDozen" id="numberOfDozen" type="number" required/>
+          <input name="numebrOfDozen" id="numberOfDozen" min="1" type="number" required/>
         </form>
           <label for="eggType">Egg Type:</label>
           <select name= "eggType" id = "eggType">
@@ -64,22 +64,30 @@ but I wanted to showcase my skills with some flexbox and create the boxes that p
           <button id="buyBtn" type="button">Buy</button>
       </section>
 
-      <section id ="adminMenuid" class="adminMenu hidden" >
+      <section id ="adminMenuid" class="adminMenu hiden" >
         <h2> Admin Menu </h2>
-        <ul> 
-          <li><button id="eggInventory">Egge Inventory</button></li>
-          <li><button id="AddEgg">Add Eggs to Inventory</button></li>
-          <li><button id="eggInventory">Remove Eggs form Inventory</button></li>
-          <li><button id="userHistory">Retrieve user history</button></li> 
-        </ul>
+        
+          <label for= "addEggsTypes">type of eggs to Add</label>
+          <select name= "addEggsType" id = "addEggType">
+            <option value=1>Duck Eggs</option>
+            <option value=2>Goose Eggs</option>
+            <option value=3>Chicken</option>
+          </select>
+          <label for= "numOfEggsAdding"></label>
+          <input type="number" id="numOfEggsAdding" name="numOfEggsAdding" required/>
+          <button id="addEggs">Add Eggs to Inventory</button></li>
+          <div id="adminDis"></div>        
+        
       </section>
 
       <div id="displayResults">
-        <p>Duck Eggs: <span id="dEggs"></span> Dozen</p>
-        <p>Goose Eggs: <span id="gEggs"></span> Dozen </p>
-        <p>Chicken Eggs: <span id="cEggs"></span> Dozen</p>
+        <p>Duck Eggs: <span id="dEggs"></span> Dozen | Avaiable:<span id="eggD"></span> </p>
+        <p>Goose Eggs: <span id="gEggs"></span> Dozen | Avaiable: <span id="eggG"></span> </p>
+        <p>Chicken Eggs: <span id="cEggs"></span> Dozen | Avaiable:<span id="eggC"></span> </p>
         <p>Total: $<span id="totalCost"></span> dollars U.S.</p>
       </div>
+
+      <div id="eggInv" ></div>
       
     </main>
     <script src="js/scripts.js"></script>
